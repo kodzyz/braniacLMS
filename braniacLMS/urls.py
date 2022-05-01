@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from  mainapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('', views.hello_world, name='hello_world'),  # path('патрн', ссылка на ф-ю контроллер, name)
+    #path('blog/', views.blog),
+    path('<str:word>/', views.blog),  # любая строка после корня сайта
 ]
