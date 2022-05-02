@@ -54,9 +54,9 @@ ROOT_URLCONF = 'braniacLMS.urls'  # точка входа
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',  # пакет для обработки шаблонов
         'DIRS': [],  # где ещё могут быть шаблоны для проэкта
-        'APP_DIRS': True,
+        'APP_DIRS': True,  # внутри каждого приложения может быть папка с шаблонами templates
         'OPTIONS': {
             'context_processors': [  # расширение контекста
                 'django.template.context_processors.debug',
