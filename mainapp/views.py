@@ -18,11 +18,6 @@ class DocSiteView(TemplateView):
 class IndexView(TemplateView):
     template_name = 'mainapp/index.html'
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data['title'] = 'Some title'
-        return context_data
-
 
 class LoginView(TemplateView):
     template_name = 'mainapp/login.html'
@@ -30,3 +25,10 @@ class LoginView(TemplateView):
 
 class NewsView(TemplateView):
     template_name = 'mainapp/news.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = 'Новость раз'
+        context_data['preview'] = 'Превью к новости раз'
+        context_data['data'] = '2822-01-01'
+        return context_data
