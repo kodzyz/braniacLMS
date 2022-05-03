@@ -19,6 +19,16 @@ class IndexView(TemplateView):
     template_name = 'mainapp/index.html'
 
 
+def index(request):
+    context = {
+        'key': {
+            'one': 1,
+            'two': ['2', 'two', 'два']
+        }
+    }
+    return render(request, 'mainapp/index.html', context)
+
+
 class LoginView(TemplateView):
     template_name = 'mainapp/login.html'
 
