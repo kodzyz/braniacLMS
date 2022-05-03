@@ -18,15 +18,10 @@ class DocSiteView(TemplateView):
 class IndexView(TemplateView):
     template_name = 'mainapp/index.html'
 
-
-def index(request):
-    context = {
-        'key': {
-            'one': 1,
-            'two': ['2', 'two', 'два']
-        }
-    }
-    return render(request, 'mainapp/index.html', context)
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = 'Some title'
+        return context_data
 
 
 class LoginView(TemplateView):
