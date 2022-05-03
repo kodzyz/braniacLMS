@@ -10,7 +10,7 @@ urlpatterns = [
     path('docsite/', views.DocSiteView.as_view(), name='docsite'),
     path('', views.IndexView.as_view(), name='index'),
     path('login/', views.LoginView.as_view(), name='login'),
-    path('news/', views.NewsView.as_view(), name='news'),
+    path('blog/', views.NewsView.as_view(), name='news'),
 
 
 
