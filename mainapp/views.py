@@ -28,7 +28,36 @@ class NewsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['title'] = 'Новость раз'
-        context_data['preview'] = 'Превью к новости раз'
-        context_data['data'] = '2822-01-01'
+        context_data['object_list'] = [
+            {
+                'title': 'Новость раз',
+                'preview': 'Превью к новости раз',
+                'data': '2822-01-01'
+            },
+            {
+                'title': 'Новость два',
+                'preview': 'Превью к новости два',
+                'data': '2822-01-02'
+            },
+            {
+                'title': 'Новость три',
+                'preview': 'Превью к новости три',
+                'data': '2822-01-03'
+            },
+            {
+                'title': 'Новость четыре',
+                'preview': 'Превью к новости четыре',
+                'data': '2822-01-04'
+            },
+            {
+                'title': 'Новость пять',
+                'preview': 'Превью к новости пять',
+                'data': '2822-01-05'
+            },
+            {
+                'title': 'Новость шесть',
+                'preview': 'Превью к новости шесть',
+                'data': '2822-01-06'
+            },
+        ]
         return context_data
