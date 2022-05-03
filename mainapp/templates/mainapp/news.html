@@ -8,7 +8,7 @@
     <div class="card my-2">
       <div class="card-body">
           <h5 class="card-title">{{ news_item.title }}</h5>  <!-- <h5 class="card-title">Новость</h5>  -->
-          <h6 class="card-subtitle mb-2 text-muted">{{ news_item.data }}</h6> <!-- <h6 class="card-subtitle mb-2 text-muted">2021-04-29 20-50-26</h6> -->
+          <h6 class="card-subtitle mb-2 text-muted">{{ news_item.date|date:"d.m.Y" }}</h6> <!-- <h6 class="card-subtitle mb-2 text-muted">2021-04-29 20-50-26</h6> -->
           <p class="card-text">{{ news_item.preview }}</p> <!-- <p class="card-text">Предварительное описание новости</p> -->
         <a href="#" class="card-link">Подробнее</a>
       </div>

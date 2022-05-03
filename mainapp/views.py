@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from datetime import datetime
 
 
 class ContactsView(TemplateView):
@@ -32,32 +33,32 @@ class NewsView(TemplateView):
             {
                 'title': 'Новость раз',
                 'preview': 'Превью к новости раз',
-                'data': '2822-01-01'
+                'date': datetime.now()  # datetime.now().strftime('%d.%m.%Y')
             },
             {
                 'title': 'Новость два',
                 'preview': 'Превью к новости два',
-                'data': '2822-01-02'
+                'date': datetime.now()
             },
             {
                 'title': 'Новость три',
                 'preview': 'Превью к новости три',
-                'data': '2822-01-03'
+                'date': datetime.now()
             },
             {
                 'title': 'Новость четыре',
                 'preview': 'Превью к новости четыре',
-                'data': '2822-01-04'
+                'date': datetime.now()
             },
             {
                 'title': 'Новость пять',
                 'preview': 'Превью к новости пять',
-                'data': '2822-01-05'
+                'date': datetime.now()
             },
             {
                 'title': 'Новость шесть',
                 'preview': 'Превью к новости шесть',
-                'data': '2822-01-06'
+                'date': datetime.now()
             },
         ]
         return context_data
