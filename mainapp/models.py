@@ -2,6 +2,7 @@ from django.db import models
 
 NULLABLE = {'blank': True, 'null': True}
 
+
 # Create your models here.
 
 class BaseModel(models.Model):
@@ -19,7 +20,18 @@ class BaseModel(models.Model):
         self.save()
 
 
+class NewsManager(models.Manager):
+
+    def delete(self):
+        pass
+
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted=False)
+
+
 class News(BaseModel):
+    object = NewsManager()
+
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     preamble = models.CharField(max_length=1000, verbose_name='Вступление')
     body = models.TextField(verbose_name='Содержимое')
@@ -89,3 +101,46 @@ class CoursesTeachers(BaseModel):
 
 # -> pip install ipython
 # -> python manage.py shell
+# In [1]: from mainapp.models import News
+# In [2]: news_item_1 = News(title='news1', preamble='intro1', body='body1')
+# In [3]:  news_item_1.save()
+# In [4]:  news_item_2 = News.objects.create(title='news2', preamble='intro2', body='body2')
+# In [5]: news_item_2
+# Out[5]: <News: #2 news2>
+# In [6]: news_item_2.pk
+# Out[6]: 2
+# In [7]: news_item_2.preamble
+# Out[7]: 'intro2'
+# In [8]: news_item_1.pk
+# Out[8]: 1
+# In [9]: news_item_2.deleted
+# Out[9]: False
+# In [10]: news_list = News.objects.all()
+# In [11]: news_list
+# Out[11]: <QuerySet [<News: #1 news1>, <News: #2 news2>]>
+# In [12]: for news_item in news_list:
+#     ...:     print(news_item.pk)
+#     ...:
+# 1
+# 2
+# In [13]: news_list = News.objects.filter(title='news1')
+# In [14]: news_list
+# Out[14]: <QuerySet [<News: #1 news1>]>
+# In [15]: news_item = news_list[0]
+# In [16]: news_item
+# Out[16]: <News: #1 news1>
+# In [17]: news_item.delete()
+# In [18]: news_list = News.objects.filter(title='news1')
+# In [19]: news_list
+# Out[19]: <QuerySet [<News: #1 news1>]>
+# модификаторы
+# In [21]: news_list = News.objects.filter(pk__gt=1)
+# In [22]: news_list
+# Out[22]: <QuerySet [<News: #2 news2>]>
+# In [23]: news_list = News.objects.filter(title__contains='1')
+# In [24]: news_list
+# Out[24]: <QuerySet [<News: #1 news1>]>
+# In [26]: news_list = News.objects.filter(title__startswith='1')
+# In [27]: news_list
+# Out[27]: <QuerySet []>
+
