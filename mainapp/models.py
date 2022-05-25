@@ -144,3 +144,5 @@ class CoursesTeachers(BaseModel):
 # In [27]: news_list
 # Out[27]: <QuerySet []>
 
+# python manage.py dumpdata mainapp.News > fix_tmp.json  #(выгружать данные из базы в фикстуры)
+# python manage.py loaddata 002_courses # (загрузки данных в БД из фикстуры)

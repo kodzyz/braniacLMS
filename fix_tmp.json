@@ -1,0 +1,15 @@
+[
+  {
+    "model": "mainapp.news",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-05-24T21:10:39.021Z",
+      "updated_at": "2022-05-24T21:10:39.021Z",
+      "deleted": false,
+      "title": "news2",
+      "preamble": "intro2",
+      "body": "body2",
+      "body_as_markdown": false
+    }
+  }
+]
