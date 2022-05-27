@@ -13,8 +13,13 @@
         <button type="submit" class="btn btn-primary btn-block">Войти</button>
     </p>
 </form>
-<p class="text-right">
-    <a href=""><small>Забыли пароль?</small></a>
-</p>
+<div class="row justify-content-between">
+    <div class="col">
+        <a href="{% url 'authapp:register' %}"><small>Регистрация</small></a>
+    </div>
+    <div class="col">
+        <a href="#"><small>Забыли пароль?</small></a>
+    </div>
+</div>
 
 {% endblock %}
