@@ -10,11 +10,15 @@ class LoginView(TemplateView):
         'title': 'Вход пользователя'
     }
 
+
 class RegisterView(TemplateView):
     template_name = 'authapp/register.html'
     extra_context = {
         'title': 'Регистрация пользователя'
     }
+
+    def post(self):
+        pass
 
 
 class LogoutView(TemplateView):
