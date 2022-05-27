@@ -11,7 +11,4 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('login/', views.LoginView.as_view(), name='login'),
     path('blog/', views.NewsView.as_view(), name='news'),
-
-
-
 ]
