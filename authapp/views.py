@@ -6,10 +6,15 @@ from django.views.generic import TemplateView
 
 class LoginView(TemplateView):
     template_name = 'authapp/login.html'  # http://127.0.0.1:8000/authapp/login/
-
+    extra_context = {
+        'title': 'Вход пользователя'
+    }
 
 class RegisterView(TemplateView):
-    pass
+    template_name = 'authapp/register.html'
+    extra_context = {
+        'title': 'Регистрация пользователя'
+    }
 
 
 class LogoutView(TemplateView):
