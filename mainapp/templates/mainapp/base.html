@@ -58,7 +58,11 @@
                 <ul class="list-unstyled">
                     <li><a href="{% url 'mainapp:index' %}">Домашняя</a></li>  <!--"index.html"-->
                     <li><a href="{% url 'mainapp:news' %}">Новости</a></li>     <!--"news.html"-->
-                    <li><a href="{% url 'authapp:login' %}">Войти</a></li>    <!--"login.html"-->
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'authapp:logout' %}">Выйти</a></li>    <!--"login.html"-->
+                {% else %}
+                    <li><a href="{% url 'authapp:login' %}">Войти</a></li>
+                {% endif %}
                 </ul>
                 </p>
             </div>

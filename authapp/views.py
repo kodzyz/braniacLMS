@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -73,7 +73,7 @@ class RegisterView(TemplateView):
 # Out[5]: <QuerySet [<User: django>]>
 
 
-class LogoutView(TemplateView):
+class CustomLogoutView(LogoutView):
     pass
 
 
