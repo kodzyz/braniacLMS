@@ -16,7 +16,6 @@ class CustomLoginView(LoginView):
     }
 
 
-
 class RegisterView(TemplateView):
     template_name = 'authapp/register.html'
     extra_context = {
@@ -64,18 +63,36 @@ class RegisterView(TemplateView):
             return HttpResponseRedirect(reverse('authapp:register'))
 
 
-# In [1]: from authapp.models import User
-# In [2]: user = User.objects.all().first()
-# In [3]: user
-# Out[3]: <User: django>
-# In [4]: user = User.objects.all()
-# In [5]: user
-# Out[5]: <QuerySet [<User: django>]>
-
-
 class CustomLogoutView(LogoutView):
     pass
 
 
 class EditView(TemplateView):
-    pass
+    template_name = 'authapp/edit.html'
+
+    extra_context = {
+        'title': 'Регистрация пользователя'
+    }
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('username'):
+            request.user.username = request.POST.get('username')
+
+        if request.POST.get('first_name'):
+            request.user.first_name = request.POST.get('first_name')
+
+        if request.POST.get('last_name'):
+            request.user.last_name = request.POST.get('last_name')
+
+        if request.POST.get('age'):
+            request.user.age = request.POST.get('age')
+
+        if request.POST.get('email'):
+            request.user.email = request.POST.get('email')
+
+        # if request.POST.get('password'):
+        #     request.user.set_password(request.POST.get('password')) # хеш авто
+
+        request.user.save()
+        return HttpResponseRedirect(reverse('authapp:edit'))
+
