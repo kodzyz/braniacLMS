@@ -18,6 +18,7 @@ class NewAdmin(admin.ModelAdmin):
     list_per_page = 2  # разделение списка на страницы
     list_filter = ('deleted', 'created_at')  # фильтры
     search_fields = ('title', 'preamble', 'body',)  # полнотекстовый поиск (регистрозависимый)
+    actions = ('mark_as_delete',)  # добавление дополнительных действий
 
     def slug(self, obj):
         return format_html(
@@ -27,3 +28,8 @@ class NewAdmin(admin.ModelAdmin):
         )
 
     slug.short_description = 'Слаг'  # описание поля
+
+    def mark_as_delete(self, request, queryset):
+        queryset.update(deleted=True)
+
+    mark_as_delete.short_description = 'Пометить удаленным'
