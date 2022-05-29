@@ -15,6 +15,8 @@ admin.site.register(CoursesTeachers)
 class NewAdmin(admin.ModelAdmin):
     list_display = ('pk', 'title', 'slug', 'deleted')  # 'slug' несуществующе поле решаемое в отдельной ф-и
     ordering = ('pk',)  # сортировка по умолчанию
+    list_per_page = 2  # разделение списка на страницы
+    list_filter = ('deleted', 'created_at')  # фильтры
 
     def slug(self, obj):
         return format_html(
