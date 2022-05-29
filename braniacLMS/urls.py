@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),  # python manage.py createsuperuser -> Имя пользователя: admin Email: dakope@tut.by Password: 1111
     path('', RedirectView.as_view(url='mainapp/')),
     path('mainapp/', include('mainapp.urls', namespace='mainapp')),  # подключаем свои URL
     path('authapp/', include('authapp.urls', namespace='authapp')),
