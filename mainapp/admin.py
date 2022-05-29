@@ -21,3 +21,5 @@ class NewAdmin(admin.ModelAdmin):
             obj.title.lower().replace(' ', '-'),
             obj.title
         )
+
+    slug.short_description = 'Слаг'  # описание поля
