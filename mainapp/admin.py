@@ -17,6 +17,7 @@ class NewAdmin(admin.ModelAdmin):
     ordering = ('pk',)  # сортировка по умолчанию
     list_per_page = 2  # разделение списка на страницы
     list_filter = ('deleted', 'created_at')  # фильтры
+    search_fields = ('title', 'preamble', 'body',)  # полнотекстовый поиск (регистрозависимый)
 
     def slug(self, obj):
         return format_html(
