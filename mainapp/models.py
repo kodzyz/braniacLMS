@@ -13,7 +13,7 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ('-created_at',)
+        ordering = ('-created_at',)  # сортировка в обратном порядке по времени создания
 
     def delete(self, *args, **kwargs):
         self.deleted = True
@@ -30,7 +30,7 @@ class NewsManager(models.Manager):
 
 
 class News(BaseModel):
-    object = NewsManager()
+    #object = NewsManager()
 
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     preamble = models.CharField(max_length=1000, verbose_name='Вступление')
