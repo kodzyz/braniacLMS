@@ -14,6 +14,7 @@ admin.site.register(CoursesTeachers)
 @admin.register(News)
 class NewAdmin(admin.ModelAdmin):
     list_display = ('pk', 'title', 'slug', 'deleted')  # 'slug' несуществующе поле решаемое в отдельной ф-и
+    ordering = ('pk',)  # сортировка по умолчанию
 
     def slug(self, obj):
         return format_html(
