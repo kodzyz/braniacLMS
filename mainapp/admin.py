@@ -12,4 +12,7 @@ admin.site.register(CoursesTeachers)
 
 @admin.register(News)
 class NewAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'title', 'deleted', )  # поля для отображения в таблице
+    list_display = ('pk', 'title', 'slug', 'deleted')  # 'slug' несуществующе поле решаемое в отдельной ф-и
+
+    def slug(self, obj):
+        return obj.title.lower().replace(' ', '-')  # читаемый Url
