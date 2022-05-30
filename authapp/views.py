@@ -76,15 +76,7 @@ class CustomLogoutView(LogoutView):
 
 class EditView(UpdateView):
     model = User
-    #form_class = CustomUserChangeForm  # используем не форму а описание полей
-    fields = (  # при описании формы не работает механизм валидации
-        'username',
-        'email',
-        'first_name',
-        'last_name',
-        'age',
-        'avatar'
-    )
+    form_class = CustomUserChangeForm  # используем не форму а описание полей
 
     template_name = 'authapp/edit.html'
 
