@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model  # ссылка на актуальную модель пользователя
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-
+from django.core.exceptions import ValidationError
 
 # class StyleFormMixin:
 #
@@ -32,3 +32,9 @@ class CustomUserCreationForm(UserCreationForm):
             'age',
             'avatar'
         )
+
+    def clean_age(self):
+        age = self.cleaned_data.get('age')
+        if age < 18:
+            raise ValidationError('Вы слишком молоды для этого сайта')  # исключение
+        return age
