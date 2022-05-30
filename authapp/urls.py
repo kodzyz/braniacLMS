@@ -8,6 +8,6 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
-    path('edit/<pk>/', EditView.as_view(), name='edit'),  # http://127.0.0.1:8000/authapp/edit/1/
+    path('edit/', EditView.as_view(), name='edit'),  # http://127.0.0.1:8000/authapp/edit/
 
 ]
