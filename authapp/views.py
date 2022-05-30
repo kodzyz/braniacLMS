@@ -3,10 +3,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, UpdateView
 
 # Create your views here.
-from authapp.forms import CustomUserCreationForm
+from authapp.forms import CustomUserCreationForm, CustomUserChangeForm
 from authapp.models import User
 
 
@@ -21,7 +21,6 @@ class RegisterView(CreateView):
     model = User
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('mainapp:index')
-
 
 
 # class RegisterView(TemplateView):
@@ -75,31 +74,45 @@ class CustomLogoutView(LogoutView):
     pass
 
 
-class EditView(TemplateView):
+class EditView(UpdateView):
+    model = User
+    #form_class = CustomUserChangeForm  # используем не форму а описание полей
+    fields = (  # при описании формы не работает механизм валидации
+        'username',
+        'email',
+        'first_name',
+        'last_name',
+        'age',
+        'avatar'
+    )
+
     template_name = 'authapp/edit.html'
 
-    extra_context = {
-        'title': 'Регистрация пользователя'
-    }
-
-    def post(self, request, *args, **kwargs):
-        if request.POST.get('username'):
-            request.user.username = request.POST.get('username')
-
-        if request.POST.get('first_name'):
-            request.user.first_name = request.POST.get('first_name')
-
-        if request.POST.get('last_name'):
-            request.user.last_name = request.POST.get('last_name')
-
-        if request.POST.get('age'):
-            request.user.age = request.POST.get('age')
-
-        if request.POST.get('email'):
-            request.user.email = request.POST.get('email')
-
-        # if request.POST.get('password'):
-        #     request.user.set_password(request.POST.get('password')) # хеш авто
-
-        request.user.save()
-        return HttpResponseRedirect(reverse('authapp:edit'))
+# class EditView(TemplateView):
+#     template_name = 'authapp/edit.html'
+#
+#     extra_context = {
+#         'title': 'Регистрация пользователя'
+#     }
+#
+#     def post(self, request, *args, **kwargs):
+#         if request.POST.get('username'):
+#             request.user.username = request.POST.get('username')
+#
+#         if request.POST.get('first_name'):
+#             request.user.first_name = request.POST.get('first_name')
+#
+#         if request.POST.get('last_name'):
+#             request.user.last_name = request.POST.get('last_name')
+#
+#         if request.POST.get('age'):
+#             request.user.age = request.POST.get('age')
+#
+#         if request.POST.get('email'):
+#             request.user.email = request.POST.get('email')
+#
+#         # if request.POST.get('password'):
+#         #     request.user.set_password(request.POST.get('password')) # хеш авто
+#
+#         request.user.save()
+#         return HttpResponseRedirect(reverse('authapp:edit'))
