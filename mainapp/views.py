@@ -1,8 +1,10 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, UpdateView, DetailView, DeleteView, CreateView
 from datetime import datetime
 from mainapp.models import News
+from django.urls import reverse_lazy
 
 
 class ContactsView(TemplateView):
@@ -53,12 +55,33 @@ class LoginView(TemplateView):
     template_name = 'mainapp/login.html'
 
 
-class NewsView(TemplateView):
-    template_name = 'mainapp/news.html'
+class NewsListView(ListView):
+    model = News
+    paginate_by = 5
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data['object_list'] = News.object.all()
-        return context_data
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted=False)
 
-# python manage.py runserver
+
+class NewsDetailView(DetailView):
+    model = News
+
+
+class NewsCreateView(PermissionRequiredMixin, CreateView):
+    model = News
+    fields = '__all__'  # все поля модели
+    success_url = reverse_lazy('mainapp:news')
+    permission_required = ('mainapp.add_news',)  # доступы: права на добавление ноостей
+
+
+class NewsUpdateView(PermissionRequiredMixin, UpdateView):
+    model = News
+    fields = '__all__'
+    success_url = reverse_lazy('mainapp:news')
+    permission_required = ('mainapp.change_news',)
+
+
+class NewsDeleteView(PermissionRequiredMixin, DeleteView):
+    model = News
+    success_url = reverse_lazy('mainapp:news')
+    permission_required = ('mainapp.delete_news',)
