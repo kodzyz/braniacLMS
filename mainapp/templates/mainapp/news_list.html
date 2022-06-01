@@ -20,13 +20,13 @@
                 <h6 class="card-subtitle mb-2 text-muted">
                     {{ item.created|date:"Y-m-d h-i-s" }}
                 </h6>
-                <p class="card-text">{{ item.preambule }}</p>
+                <p class="card-text">{{ item.preamble }}</p>
                 <div class="row">
                     <div class="col">
                         <a href="{% url 'mainapp:news_detail' pk=item.pk %}"
                            class="card-link">Подробнее</a>
                     </div>
-                    {% if perms.mainapp.change_news %}
+                    {% if perms.mainapp.change_news %}  <!-- проверка прав в шаблоне -->
                     <div class="col-1 text-center">
                         <a href="{% url 'mainapp:news_update' pk=item.pk %}">
                             <i class="far fa-edit"></i>
