@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 NULLABLE = {'blank': True, 'null': True}
@@ -87,62 +88,30 @@ class CoursesTeachers(BaseModel):
     def __str__(self) -> str:
         return "{0:0>3} {1} {2}".format(self.pk, self.name_second, self.name_first)
 
-# миграции - внесение изм в БД в соответствии с определениями в модели
 
-# шаг 1: создаем описание полей
-# в терминале:
-# -> python manage.py makemigrations
+class CourseFeedback(BaseModel):
+    # RATING_FIVE = 5
 
-# шаг 2: создать таблицу в БД
-# -> python manage.py migrate
+    RATINGS = (
+        (5, '⭐⭐⭐⭐⭐'),
+        (4, '⭐⭐⭐⭐'),
+        (3, '⭐⭐⭐'),
+        (2, '⭐⭐'),
+        (1, '⭐'),
+    )
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,
+                               verbose_name='Курс')  # ссылка на курс # «один ко многим»
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
+                             verbose_name='Пользователь')  # ссылка на пользователя
+    rating = models.SmallIntegerField(choices=RATINGS, default=5,
+                                      verbose_name='Рейтинг')  # предустановленный список возможных значений
+    feedback = models.TextField(verbose_name='Отзыв', default='Без отзыва')
 
-#  пустая миграция :
-# -> python manage.py makemigrations --empty --name data_load mainapp
+    class Meta:
+        verbose_name = ''
+        verbose_name_plural = ''
 
-# -> pip install ipython
-# -> python manage.py shell
-# In [1]: from mainapp.models import News
-# In [2]: news_item_1 = News(title='news1', preamble='intro1', body='body1')
-# In [3]:  news_item_1.save()
-# In [4]:  news_item_2 = News.objects.create(title='news2', preamble='intro2', body='body2')
-# In [5]: news_item_2
-# Out[5]: <News: #2 news2>
-# In [6]: news_item_2.pk
-# Out[6]: 2
-# In [7]: news_item_2.preamble
-# Out[7]: 'intro2'
-# In [8]: news_item_1.pk
-# Out[8]: 1
-# In [9]: news_item_2.deleted
-# Out[9]: False
-# In [10]: news_list = News.objects.all()
-# In [11]: news_list
-# Out[11]: <QuerySet [<News: #1 news1>, <News: #2 news2>]>
-# In [12]: for news_item in news_list:
-#     ...:     print(news_item.pk)
-#     ...:
-# 1
-# 2
-# In [13]: news_list = News.objects.filter(title='news1')
-# In [14]: news_list
-# Out[14]: <QuerySet [<News: #1 news1>]>
-# In [15]: news_item = news_list[0]
-# In [16]: news_item
-# Out[16]: <News: #1 news1>
-# In [17]: news_item.delete()
-# In [18]: news_list = News.objects.filter(title='news1')
-# In [19]: news_list
-# Out[19]: <QuerySet [<News: #1 news1>]>
-# модификаторы
-# In [21]: news_list = News.objects.filter(pk__gt=1)
-# In [22]: news_list
-# Out[22]: <QuerySet [<News: #2 news2>]>
-# In [23]: news_list = News.objects.filter(title__contains='1')
-# In [24]: news_list
-# Out[24]: <QuerySet [<News: #1 news1>]>
-# In [26]: news_list = News.objects.filter(title__startswith='1')
-# In [27]: news_list
-# Out[27]: <QuerySet []>
+    def __str__(self) -> str:
+        return f'Отзыв на {self.course} от {self.user}'
 
-# python manage.py dumpdata mainapp.News > fix_tmp.json  #(выгружать данные из базы в фикстуры)
-# python manage.py loaddata 002_courses # (загрузки данных в БД из фикстуры)
+# шаг 1: # -> python manage.py makemigrations # шаг 2: # -> python manage.py migrate

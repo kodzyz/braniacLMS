@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, JsonResponse
+from django.template.loader import render_to_string
 from django.views.generic import TemplateView, ListView, UpdateView, DetailView, DeleteView, CreateView
 from datetime import datetime
-from mainapp.models import News
+
+from mainapp.forms import CourseFeedbackForm
+from mainapp.models import News, Course, Lesson, CoursesTeachers, CourseFeedback
 from django.urls import reverse_lazy
 
 
@@ -39,8 +42,9 @@ class ContactsView(TemplateView):
         return context_data
 
 
-class CoursesListView(TemplateView):
+class CoursesListView(ListView):
     template_name = 'mainapp/courses_list.html'
+    model = Course
 
 
 class DocSiteView(TemplateView):
@@ -85,3 +89,35 @@ class NewsDeleteView(PermissionRequiredMixin, DeleteView):
     model = News
     success_url = reverse_lazy('mainapp:news')
     permission_required = ('mainapp.delete_news',)
+
+
+class CourseDetailView(TemplateView):
+    template_name = 'mainapp/courses_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        # получение курсов
+        context_data['course_object'] = get_object_or_404(Course, pk=self.kwargs.get(
+            'pk'))  # вернуть объект или 404 если нет в базе
+        # получение уроков
+        context_data['lessons'] = Lesson.objects.filter(course=context_data['course_object'])
+        context_data['teachers'] = CoursesTeachers.objects.filter(courses=context_data['course_object'])
+        context_data['feedback_list'] = CourseFeedback.objects.filter(course=context_data['course_object'])
+
+        if self.request.user.is_authenticated:
+            context_data['feedback_form'] = CourseFeedbackForm(
+                course=context_data['course_object'],
+                user=self.request.user
+            )
+
+        return context_data
+
+
+class CourseFeedbackCreateView(CreateView):
+    model = CourseFeedback
+    form_class = CourseFeedbackForm
+
+    def form_valid(self, form):
+        self.object = form.save()
+        rendered_template = render_to_string('mainapp/includes/feedback_card.html', context={'item': self.object})
+        return JsonResponse({'card': rendered_template})
