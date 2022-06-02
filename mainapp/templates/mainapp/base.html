@@ -57,8 +57,12 @@
                 <p>
                 <ul class="list-unstyled">
                     <li><a href="{% url 'mainapp:index' %}">Домашняя</a></li>  <!--"index.html"-->
-                    <li><a href="{% url 'mainapp:news' %}">Новости</a></li>     <!--"news.html"-->
-                    <li><a href="{% url 'mainapp:login' %}">Войти</a></li>    <!--"login.html"-->
+                    <li><a href="{% url 'mainapp:news' %}">Новости</a></li>     <!--"news_list.html"-->
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'authapp:logout' %}">Выйти</a></li>    <!--"login.html"-->
+                {% else %}
+                    <li><a href="{% url 'authapp:login' %}">Войти</a></li>
+                {% endif %}
                 </ul>
                 </p>
             </div>
@@ -123,8 +127,8 @@
     <!-- FontAwesome -->
     <script src="{% static 'js/fontawesome.all.min.js' %}"></script>
 
-
-
+{% block js %}
+{% endblock js %}
 </body>
 
 </html>

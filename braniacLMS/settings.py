@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ DEBUG = True  # состояние отладки
 
 ALLOWED_HOSTS = []  # список хостов, адреса для защиты от кросформенных запросов
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +35,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+
+    'social_django',
+
     'mainapp',
+    'authapp',
 ]  # установленные приложения
 
 MIDDLEWARE = [
@@ -55,7 +58,7 @@ ROOT_URLCONF = 'braniacLMS.urls'  # точка входа
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',  # пакет для обработки шаблонов
-        'DIRS': [],  # где ещё могут быть шаблоны для проэкта
+        'DIRS': ['templates'],  # где ещё могут быть шаблоны для проэкта
         'APP_DIRS': True,  # внутри каждого приложения может быть папка с шаблонами templates
         'OPTIONS': {
             'context_processors': [  # расширение контекста
@@ -64,13 +67,14 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'mainapp.context_processor.my_context_processor',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'braniacLMS.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -81,7 +85,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -101,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]  # классы описывающие каким должен быть пароль
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -112,7 +114,6 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -127,3 +128,22 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+AUTH_USER_MODEL = 'authapp.User'
+LOGIN_REDIRECT_URL = 'mainapp:index'  # url при входе или выходе
+LOGOUT_REDIRECT_URL = 'mainapp:index'
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = 'cdd41f9830bed7587936'
+SOCIAL_AUTH_GITHUB_SECRET = 'b97beb832b9ce4643072b1cddee504901d33c401'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
