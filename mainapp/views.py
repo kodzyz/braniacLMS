@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
@@ -124,8 +124,11 @@ class CourseFeedbackCreateView(CreateView):
         return JsonResponse({'card': rendered_template})
 
 
-class LogView(TemplateView):
+class LogView(UserPassesTestMixin, TemplateView):
     template_name = 'mainapp/logs.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
