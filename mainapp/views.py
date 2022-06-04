@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import TemplateView, ListView, UpdateView, DetailView, DeleteView, CreateView
 from datetime import datetime
-
+from django.core.cache import cache
 from braniacLMS import settings
 from mainapp.forms import CourseFeedbackForm
 from mainapp.models import News, Course, Lesson, CoursesTeachers, CourseFeedback
@@ -104,7 +104,14 @@ class CourseDetailView(TemplateView):
         # получение уроков
         context_data['lessons'] = Lesson.objects.filter(course=context_data['course_object'])
         context_data['teachers'] = CoursesTeachers.objects.filter(courses=context_data['course_object'])
-        context_data['feedback_list'] = CourseFeedback.objects.filter(course=context_data['course_object'])
+
+        feedback_list_key = f'course_feedback_{context_data["course_object"].pk}'
+        cached_feedback_list = cache.get(feedback_list_key)
+        if cached_feedback_list is None:
+            context_data['feedback_list'] = CourseFeedback.objects.filter(course=context_data['course_object'])
+            cache.set(feedback_list_key, context_data['feedback_list'], timeout=300)
+        else:
+            context_data['feedback_list'] = cached_feedback_list
 
         if self.request.user.is_authenticated:
             context_data['feedback_form'] = CourseFeedbackForm(
