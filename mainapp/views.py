@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from django.views.generic import TemplateView, ListView, UpdateView, DetailView, DeleteView, CreateView
 from datetime import datetime
 
+from braniacLMS import settings
 from mainapp.forms import CourseFeedbackForm
 from mainapp.models import News, Course, Lesson, CoursesTeachers, CourseFeedback
 from django.urls import reverse_lazy
@@ -121,3 +122,19 @@ class CourseFeedbackCreateView(CreateView):
         self.object = form.save()
         rendered_template = render_to_string('mainapp/includes/feedback_card.html', context={'item': self.object})
         return JsonResponse({'card': rendered_template})
+
+
+class LogView(TemplateView):
+    template_name = 'mainapp/logs.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        log_lines = []
+        with open(settings.BASE_DIR / 'log/main_log.log') as log_file:
+            for i, line in enumerate(log_file):
+                if i == 1000:
+                    break
+                log_lines.insert(0, line)
+
+            context_data['logs'] = log_lines
+        return context_data

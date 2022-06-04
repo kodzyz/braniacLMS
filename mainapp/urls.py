@@ -22,4 +22,7 @@ urlpatterns = [
     path('news/<int:pk>/detail/', views.NewsDetailView.as_view(), name='news_detail'),
     path('news/<int:pk>/delete/', views.NewsDeleteView.as_view(), name='news_delete'),
 
+    # Logs
+    path('logs/', views.LogView.as_view(), name='logs_list'),
+
 ]
