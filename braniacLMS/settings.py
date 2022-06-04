@@ -155,3 +155,13 @@ SOCIAL_AUTH_GITHUB_KEY = 'cdd41f9830bed7587936'
 SOCIAL_AUTH_GITHUB_SECRET = 'b97beb832b9ce4643072b1cddee504901d33c401'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
