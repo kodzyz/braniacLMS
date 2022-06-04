@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.template.loader import render_to_string
+from django.views import View
 from django.views.generic import TemplateView, ListView, UpdateView, DetailView, DeleteView, CreateView
 from datetime import datetime
 
@@ -141,3 +142,12 @@ class LogView(UserPassesTestMixin, TemplateView):
 
             context_data['logs'] = log_lines
         return context_data
+
+
+class LogDownloadView(UserPassesTestMixin, View):
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get(self, *args, **kwargs):
+        return FileResponse(open(settings.LOG_FILE, "rb"))

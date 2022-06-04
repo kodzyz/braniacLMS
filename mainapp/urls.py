@@ -24,5 +24,6 @@ urlpatterns = [
 
     # Logs
     path('logs/', views.LogView.as_view(), name='logs_list'),
+    path('logs/download', views.LogDownloadView.as_view(), name='logs_download'),
 
 ]
