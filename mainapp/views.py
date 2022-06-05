@@ -1,11 +1,13 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, JsonResponse, FileResponse
+from django.http import HttpResponse, JsonResponse, FileResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import TemplateView, ListView, UpdateView, DetailView, DeleteView, CreateView
 from datetime import datetime
 from django.core.cache import cache
+
+from mainapp import tasks
 from braniacLMS import settings
 from mainapp.forms import CourseFeedbackForm
 from mainapp.models import News, Course, Lesson, CoursesTeachers, CourseFeedback
@@ -42,6 +44,13 @@ class ContactsView(TemplateView):
         ]
 
         return context_data
+
+    def post(self, *args, **kwargs):
+        message_body = self.request.POST.get('message_body')
+        message_from = self.request.user.pk if self.request.user.is_authenticated else None
+        tasks.send_feedback_to_email.delay(message_body, message_from)
+
+        return HttpResponseRedirect(reverse_lazy('mainapp:contacts'))
 
 
 class CoursesListView(ListView):

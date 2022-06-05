@@ -165,3 +165,22 @@ CACHES = {
         },
     }
 }
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+# базовое представление при отправке через реал. почтовый сервер
+
+# EMAIL_HOST = 'smtp.yandex.ru'
+# EMAIL_PORT = 465
+# EMAIL_HOST_USER = 'myname@yandex.ru'
+# EMAIL_HOST_PASSWORD = 'mypassword'
+# EMAIL_USE_SSL = False  # Google
+# EMAIL_USE_TLS = True
+
+
+# локальное тестирование
+
+# Email as files for debug
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'emails-tmp'
