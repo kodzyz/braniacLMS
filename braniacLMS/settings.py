@@ -119,7 +119,7 @@ LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Moscow'
 
-USE_I18N = True
+USE_I18N = True  # интернационализация
 
 USE_TZ = True
 
@@ -184,3 +184,8 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 # Email as files for debug
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'emails-tmp'
+
+# инфо по языку
+LOCALE_PATHS = [BASE_DIR / 'locale']
+# python manage.py makemessages -l ru -i venv
+# python manage.py compilemessages -i venv
