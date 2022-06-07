@@ -187,5 +187,3 @@ EMAIL_FILE_PATH = 'emails-tmp'
 
 # инфо по языку
 LOCALE_PATHS = [BASE_DIR / 'locale']
-# python manage.py makemessages -l ru -i venv
-# python manage.py compilemessages -i venv
