@@ -22,7 +22,10 @@ Django==4.0.4
 django-crispy-forms==1.14.0
 django-debug-toolbar==3.4.0
 django-redis==5.2.0
+dnspython==2.2.1
+eventlet==0.33.1
 executing==0.8.3
+greenlet==1.1.2
 idna==3.3
 ipython==8.3.0
 jedi==0.18.1
