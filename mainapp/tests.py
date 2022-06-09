@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from http import HTTPStatus
-
+from django.core import mail
 # Create your tests here.
 from django.urls import reverse
 
@@ -11,8 +11,8 @@ from mainapp.models import News
 class StaticPagesSmokeTest(TestCase):
 
     def test_page_index_open(self):
-        url = reverse('mainapp:index')
-        result = self.client.get(url)
+        url = reverse('mainapp:index')  # адрес для открытия
+        result = self.client.get(url)  # ответ от клиента
 
         self.assertEqual(result.status_code, HTTPStatus.OK)  # 200 'Request fulfilled, document follows'
 
@@ -70,3 +70,30 @@ class NewsTestCase(TestCase):  # функцональный тест
         self.assertEqual(result.status_code, HTTPStatus.FOUND)
 
         self.assertEqual(News.object.all().count(), news_count + 1)
+
+
+class EmailTest(TestCase):
+    def test_send_email(self):
+        mail.send_mail('Subject here', 'Here is the message.',
+                       'from@example.com', ['to@example.com'],
+                       fail_silently=False)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Subject here')
+
+
+class ContactTests(TestCase):  # тест не работает !!! а celery работает
+    def test_post(self):
+        with self.captureOnCommitCallbacks(execute=True) as callbacks:
+            response = self.client.post(
+                '/mainapp/contacts/',
+                {'message_body': 'I like your site'},
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(callbacks), 1)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Contact Form')
+        self.assertEqual(mail.outbox[0].body, 'I like your site')
+
+
+# python manage.py test
