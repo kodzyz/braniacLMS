@@ -22,7 +22,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # python manage.py createsuperuser -> Имя пользователя: admin Email: dakope@tut.by Password: 1111
+    path('admin/', admin.site.urls),
+    # python manage.py createsuperuser -> Имя пользователя: admin Email: dakope@tut.by Password: 1111
+    path('i18n/', include('django.conf.urls.i18n')),  # переключение языков
     path('', RedirectView.as_view(url='mainapp/')),
     path('mainapp/', include('mainapp.urls', namespace='mainapp')),  # подключаем свои URL
     path('authapp/', include('authapp.urls', namespace='authapp')),
@@ -31,5 +33,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)))
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

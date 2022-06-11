@@ -8,3 +8,4 @@ celery_app.autodiscover_tasks()
 
 
 # celery -A braniacLMS worker -l INFO
+#celery -A braniacLMS worker -l INFO -P eventlet
